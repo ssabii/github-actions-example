@@ -1,0 +1,20 @@
+name: Check Version
+
+on:
+  pull_request:
+    branches: [main, test]
+
+jobs:
+  block-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: check diff package.json version
+        run: |
+          if ! git diff main test -- package.json | grep 'version'; then
+            echo "package.json version is not changed"
+            exit 1
+          else
+            echo "package.json version is changed"
+          fi
