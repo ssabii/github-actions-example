@@ -1,4 +1,4 @@
-name: Check Release Version
+name: Check Package.json for Main Merge
 
 on:
   pull_request:
@@ -14,11 +14,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: check changes for package.json
+      - name: Check for package.json changes
+        id: check_changes
         run: |
-          if ! git diff origin/main origin/${{ github.event.pull_request.head.ref }} -- package.json | grep 'version'; then
-            echo "package.json version is not changed"
-            exit 1
+          git fetch origin ${{ github.event.pull_request.head.ref }}
+          changes=$(git diff origin/main...${{ github.event.pull_request.head.ref }})
+          if echo "$changes" | grep -q 'package.json'; then
+            echo "::set-output name=changed::true"
           else
-            echo "package.json version is changed"
+            echo "::set-output name=changed::false"
           fi
+
+      - name: Block merge if package.json not changed
+        if: steps.check_changes.outputs.changed == 'false'
+        run: |
+          echo "package.json file has not been changed. Merging blocked."
+          exit 1
