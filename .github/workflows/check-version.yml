@@ -1,7 +1,9 @@
 name: Check Release Version
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   run:
