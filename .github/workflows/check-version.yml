@@ -2,8 +2,7 @@ name: Check Version
 
 on:
   pull_request:
-    branches-ignore:
-      - main
+    branches: ["master"]
 
 jobs:
   run:
