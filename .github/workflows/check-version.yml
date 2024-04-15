@@ -1,8 +1,8 @@
-name: Check Version
+name: Check Release Version
 
 on:
   pull_request:
-    branches: ["test"]
+    branches: ['main']
 
 jobs:
   run:
