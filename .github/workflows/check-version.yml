@@ -12,6 +12,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          check-latest: true
+
       - name: check changes for package.json
         run: |
           if ! git diff origin/main origin/${{ github.event.pull_request.head.ref }} -- package.json | grep 'version'; then
