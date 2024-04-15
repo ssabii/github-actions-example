@@ -2,7 +2,7 @@ name: Check Release Version
 
 on:
   pull_request:
-    branches: ['main']
+    branches: ['main', 'test']
 
 jobs:
   run:
