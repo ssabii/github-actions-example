@@ -5,7 +5,7 @@ on:
     branches: [main, test]
 
 jobs:
-  block-merge:
+  check-version:
     runs-on: ubuntu-latest
 
     steps:
