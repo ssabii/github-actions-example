@@ -2,9 +2,12 @@ name: Check Release Version
 
 on:
   pull_request:
+    branches:
+      - main
 
 jobs:
   run:
+    if: ${{ startsWith(github.head_ref, 'main') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
