@@ -1,0 +1,24 @@
+name: Check Release Version
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: check changes for package.json
+        run: |
+          if ! git diff origin/main origin/${{ github.event.pull_request.head.ref }} -- package.json | grep 'version'; then
+            echo "package.json version is not changed"
+            exit 1
+          else
+            echo "package.json version is changed"
+          fi
