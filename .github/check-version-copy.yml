@@ -1,0 +1,32 @@
+name: Check Version
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  check-version-package-json:
+    if: github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'dev'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check for package.json changes
+        run: |
+          changes=$(git diff origin/main origin/${{ github.event.pull_request.head.ref }} -- package.json | grep 'version')
+          if ! [ -z "$changes" ]; then
+            echo "version is changed"
+          else
+            echo "version is not changed"
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          check-latest: true
