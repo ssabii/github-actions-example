@@ -2,6 +2,9 @@ name: Check Version
 
 on:
   pull_request:
+    branches:
+      - main
+      - dev
 
 jobs:
   check-version-package-json:
