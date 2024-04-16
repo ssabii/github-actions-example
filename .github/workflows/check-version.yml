@@ -1,4 +1,4 @@
-name: Check Version
+name: Check Version package.json
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  check-version:
+  check-version-package-json:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -20,11 +20,12 @@ jobs:
           node-version: "16"
           check-latest: true
 
-      - name: check changes for package.json
+      - name: Check for package.json changes
         run: |
-          if ! git diff origin/main origin/${{ github.event.pull_request.head.ref }} -- package.json | grep 'version'; then
-            echo "package.json version is not changed"
+          changes=$(git diff origin/main origin/${{ github.event.pull_request.head.ref }} -- package.json | grep 'version')
+          if ! "$changes"; then
+            echo "version is not changed"
             exit 1
           else
-            echo "package.json version is changed"
+            echo "version is changed"
           fi
