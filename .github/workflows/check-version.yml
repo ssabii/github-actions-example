@@ -21,9 +21,9 @@ jobs:
           changes=$(git diff origin/main origin/${{ github.event.pull_request.head.ref }} -- package.json | grep 'version')
           if ! [ -z "$changes" ]; then
             echo "version is changed"
-            exit 1
           else
             echo "version is not changed"
+            exit 1
           fi
 
       - uses: actions/setup-node@v3
