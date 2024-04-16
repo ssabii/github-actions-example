@@ -19,7 +19,7 @@ jobs:
       - name: Check for package.json changes
         run: |
           changes=$(git diff origin/main origin/${{ github.event.pull_request.head.ref }} -- package.json | grep 'version')
-          if ! "$changes"; then
+          if ! [ -z "$changes" ]; then
             echo "version is not changed"
             exit 1
           else
